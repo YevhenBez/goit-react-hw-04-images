@@ -6,20 +6,18 @@ import { fetchImages } from '../fetchImages';
 import Loader from './loader/Loader';
 import css from './app.module.css';
 
-// let page = 1;
 
 class App extends React.Component {
   state = {
     inputData: '',
     items: [],
-    page: 1, //рефакторинг на componentDidUpdate
+    page: 1, 
     status: 'idle',
     totalHits: 0,
     showButtonMore: false
   };
 
   async componentDidUpdate(_, prevState) {
-    //рефакторинг на componentDidUpdate
     const { page, inputData } = this.state;
     if (inputData.trim() === '') {
       return;
@@ -59,32 +57,7 @@ class App extends React.Component {
     }
   }
 
-  // handleSubmit = async inputData => {
-  //   page = 1;
-  //   if (inputData.trim() === '') {
-  //     return;
-  //   } else {
-  //     try {
-  //       this.setState({ status: 'pending' });
-  //       const { totalHits, hits } = await fetchImages(inputData, page);
-  //       if (hits.length < 1) {
-  //         this.setState({ status: 'idle' });
-  //       } else {
-  //         this.setState({
-  //           items: hits,
-  //           inputData,
-  //           totalHits: totalHits,
-  //           status: 'resolved',
-  //         });
-  //       }
-  //     } catch (error) {
-  //       this.setState({ status: 'rejected' });
-  //     }
-  //   }
-  // };
-
   handleSubmit = inputData => {
-    //рефакторинг на componentDidUpdate
     this.setState({
       inputData,
       items: [],
@@ -94,22 +67,7 @@ class App extends React.Component {
     });
   };
 
-  // onNextPage = async () => {
-  //   this.setState({ status: 'pending' });
-
-  //   try {
-  //     const { hits } = await fetchImages(this.state.inputData, (page += 1));
-  //     this.setState(prevState => ({
-  //       items: [...prevState.items, ...hits],
-  //       status: 'resolved',
-  //     }));
-  //   } catch (error) {
-  //     this.setState({ status: 'rejected' });
-  //   }
-  // };
-
   onNextPage = () => {
-    //рефакторинг на componentDidUpdate
     this.setState(prevState => ({ page: prevState.page + 1, showButtonMore: false }));
   };
 
