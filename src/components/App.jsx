@@ -1,4 +1,3 @@
-// import React, { useState, useEffect, useRef } from 'react';
 import React, { useState, useEffect } from 'react';
 import Searchbar from './searchbar/Searchbar';
 import Button from './button/Button';
@@ -15,58 +14,28 @@ const App = () => {
   const [totalHits, setTotalHits] = useState(0);
   const [showButtonMore, setShowButtonMore] = useState(false);
 
-  // function usePreviousValue(value) {
-  //   const ref = useRef();
-  //   useEffect(() => {
-  //     ref.current = value;
-  //   });
-  //   return ref.current;
-  // }
-
-  // const previousInputData = usePreviousValue(inputData);
-  // const previousPage = usePreviousValue(page);
-
   useEffect(() => {
     if (inputData.trim() === '') {
       return;
     }
-    // if (previousInputData !== inputData) {
-      getImages();
-      async function getImages() {
-        try {
-          setStatus('pending');
-          const { totalHits, hits } = await fetchImages(inputData, page);
-          if (hits.length < 1) {
-            setStatus('idle');
-          } else {
-            setItems(hits);
-            setInputData(inputData);
-            setTotalHits(totalHits);
-            setStatus('resolved');
-            setShowButtonMore(true);
-          }
-        } catch (error) {
-          setStatus('rejected');
-        }
-      }
-    // }
-  }, [inputData, page]);
-  useEffect(() => {
-    // if (previousPage !== page && previousInputData === inputData) {
-      getImages();
-      async function getImages() {
+    getImages();
+    async function getImages() {
+      try {
         setStatus('pending');
-        try {
-          const { hits } = await fetchImages(inputData, page);
-
+        const { totalHits, hits } = await fetchImages(inputData, page);
+        if (hits.length < 1) {
+          setStatus('idle');
+        } else {
           setItems(prevItems => [...prevItems, ...hits]);
+          setInputData(inputData);
+          setTotalHits(totalHits);
           setStatus('resolved');
           setShowButtonMore(true);
-        } catch (error) {
-          setStatus('rejected');
         }
+      } catch (error) {
+        setStatus('rejected');
       }
-    // }
+    }
   }, [inputData, page]);
 
   const handleSubmit = inputData => {
