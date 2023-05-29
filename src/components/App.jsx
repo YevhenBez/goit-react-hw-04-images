@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+// import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Searchbar from './searchbar/Searchbar';
 import Button from './button/Button';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -14,22 +15,22 @@ const App = () => {
   const [totalHits, setTotalHits] = useState(0);
   const [showButtonMore, setShowButtonMore] = useState(false);
 
-  function usePreviousValue(value) {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  }
+  // function usePreviousValue(value) {
+  //   const ref = useRef();
+  //   useEffect(() => {
+  //     ref.current = value;
+  //   });
+  //   return ref.current;
+  // }
 
-  const previousInputData = usePreviousValue(inputData);
-  const previousPage = usePreviousValue(page);
+  // const previousInputData = usePreviousValue(inputData);
+  // const previousPage = usePreviousValue(page);
 
   useEffect(() => {
     if (inputData.trim() === '') {
       return;
     }
-    if (previousInputData !== inputData) {
+    // if (previousInputData !== inputData) {
       getImages();
       async function getImages() {
         try {
@@ -48,8 +49,10 @@ const App = () => {
           setStatus('rejected');
         }
       }
-    }
-    if (previousPage !== page && previousInputData === inputData) {
+    // }
+  }, [inputData, page]);
+  useEffect(() => {
+    // if (previousPage !== page && previousInputData === inputData) {
       getImages();
       async function getImages() {
         setStatus('pending');
@@ -63,8 +66,8 @@ const App = () => {
           setStatus('rejected');
         }
       }
-    }
-  }, [inputData, previousInputData, previousPage, page]);
+    // }
+  }, [inputData, page]);
 
   const handleSubmit = inputData => {
     setInputData(inputData);
